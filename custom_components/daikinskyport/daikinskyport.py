@@ -227,7 +227,7 @@ class DaikinSkyport(object):
         if "ctOutdoorCoolRequestedDemand" in thermostat:
             sensors.append({"name": f"{name} Outdoor cooling", "value": round(thermostat['ctOutdoorCoolRequestedDemand'] / DAIKIN_PERCENT_MULTIPLIER, 1), "type": "demand"})
         if "ctOutdoorPower" in thermostat:
-            sensors.append({"name": f"{name} Outdoor", "value": thermostat['ctOutdoorPower'] * 10, "type": "power"})
+            sensors.append({"name": f"{name} Outdoor", "value": thermostat['ctOutdoorPower'], "type": "power"})
         if "ctOutdoorFrequencyInPercent" in thermostat:
             sensors.append({"name": f"{name} Outdoor", "value": round(thermostat['ctOutdoorFrequencyInPercent'] / DAIKIN_PERCENT_MULTIPLIER, 1), "type": "frequency_percent"})
         if "tempIndoor" in thermostat:
@@ -273,6 +273,53 @@ class DaikinSkyport(object):
             sensors.append({"name": f"{name} Indoor", "value": thermostat['aqIndoorValue'], "type": "score"})
             sensors.append({"name": f"{name} Indoor", "value": thermostat['aqIndoorVOCValue'], "type": "VOC"})
 
+        if "ctOutdoorCoilTemperature" in thermostat:
+            sensors.append({"name": f"{name} Outdoor Coil", "value": round((thermostat['ctOutdoorCoilTemperature']/10-32)*5/9,1), "type": "temperature"})
+        if "ctOutdoorSuctionPressure" in thermostat:
+            sensors.append({"name": f"{name} Outdoor Coil Suction", "value": thermostat['ctOutdoorSuctionPressure'], "type": "pressure"})
+        if "ctOutdoorDefrostSensorTemperature" in thermostat:
+            sensors.append({"name": f"{name} Outdoor Defrost Sensor", "value": round((thermostat['ctOutdoorDefrostSensorTemperature']/10-32)*5/9,1), "type": "temperature"})    
+        if "ctOutdoorLiquidTemperature" in thermostat:
+            sensors.append({"name": f"{name} Outdoor Coil Liquid", "value": round((thermostat['ctOutdoorLiquidTemperature']/10-32)*5/9,1), "type": "temperature"})    
+        if "ctOutdoorDischargeTemperature" in thermostat:
+            sensors.append({"name": f"{name} Outdoor Discharge", "value": round((thermostat['ctOutdoorDischargeTemperature']/10-32)*5/9,1), "type": "temperature"})    
+        if "ctOutdoorFanRPM" in thermostat:
+            sensors.append({"name": f"{name} Outdoor Fan", "value": thermostat['ctOutdoorFanRPM'], "type": "airflow"})    
+        if "ctOutdoorRequestedIndoorAirflow" in thermostat:
+            sensors.append({"name": f"{name} Outdoor Indoor Airflow", "value": thermostat['ctOutdoorRequestedIndoorAirflow'], "type": "demand"})    
+        if "ctOutdoorCompressorRunTime" in thermostat:
+            sensors.append({"name": f"{name} Outdoor Compressor Runtime", "value": thermostat['ctOutdoorCompressorRunTime'], "type": "valeur"})    
+ 
+        if "ctOutdoorHeatMaxRPSOffset" in thermostat:
+            sensors.append({"name": f"{name} Outdoor Max RPS offset", "value": thermostat['ctOutdoorHeatMaxRPSOffset'], "type": "valeur"})    
+        if "ctOutdoorOperationMode" in thermostat:
+            sensors.append({"name": f"{name} Outdoor Operation Mode", "value": thermostat['ctOutdoorOperationMode'], "type": "valeur"})    
+        if "ctOutdoorCoilTemperature" in thermostat:
+            sensors.append({"name": f"{name} Outdoor Coil", "value": round((thermostat['ctOutdoorCoilTemperature']/10-32)*5/9,1), "type": "temperature"})    
+
+        if "ctAHFanRequestedDemand" in thermostat:
+            sensors.append({"name": f"{name} Indoor Fan", "value": thermostat['ctAHFanRequestedDemand'], "type": "demand"})    
+        if "equipmentStatus" in thermostat:
+            sensors.append({"name": f"{name} Equipement", "value": thermostat['equipmentStatus'], "type": ""})    
+        if "heatPumpLockoutTemp" in thermostat:
+            sensors.append({"name": f"{name} Outdoor Lockup", "value": round(thermostat['heatPumpLockoutTemp'],1), "type": "temperature"})    
+
+#        if "ctAHFanRequestedDemand" in thermostat:
+#            sensors.append({"name": f"{name} Indoor Fan", "value": thermostat['ctAHFanRequestedDemand'], "type": "demand"})    
+#        if "equipmentStatus" in thermostat:
+#            sensors.append({"name": f"{name} Equipement", "value": thermostat['equipmentStatus'], "type": "actual_status"})    
+#        if "heatPumpLockoutTemp" in thermostat:
+#            sensors.append({"name": f"{name} Outdoor Lockup", "value": round(thermostat['heatPumpLockoutTemp'],1), "type": "temperature"})    
+
+#            ctCompressorCurrent
+#            ctCurrentCompressorRPS
+#            ctHeatingRatedPower
+#            ctReversingValve
+#            ctTargetCompressorspeed
+#            ctInverterCurrent
+#            ctIndoorRatedCFM
+#            ctCompressorCurrent
+            
         return sensors
 
     def write_tokens_to_file(self):
